@@ -42,7 +42,16 @@ function start() {
 }
 
 function buyItems() {
-    console.log('ALRIGHT WHAT WOULD YOU LIKE TO BUY');
+      connection.query('SELECT * FROM products', function(err, res) {
+        // SELECT * is telling you to grab everything from the table
+        // the table is FROM products
+        // function(err, res) is the call back
+        if (err) throw err;
+          console.log(res);
+        // console.log('\nProduct ID: ' + res.id + '\nProduct Name: ' + res.product_name);
+        connection.end();
+      });
+    // console.log('ALRIGHT WHAT WOULD YOU LIKE TO BUY');
 }
 
 function sellItems() {
