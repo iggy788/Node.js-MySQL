@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 var inquirer = require('inquirer');
-var prompt = require('prompt');
 
+// create the connection information for the sql database
 var connection = mysql.createConnection({
   host: 'localhost',
   port: 3306,
@@ -14,62 +14,37 @@ var connection = mysql.createConnection({
   database: 'bamazon',
 });
 
-inquirer
-  .prompt([
-    {
-      name: 'start',
-      message: 'Ready to Buy Some Things?',
-      type: 'confirm',
-      default: true,
-    },
-  ])
-  .then(game => {
-    if (game.start) {
-      connection.connect(function(err) {
-        if (err) throw err;
-        console.log('connected as id ' + connection.threadId);
-        connection.end();
-        });
-    }
-    buyItems();
-  });
+// connect to the mysql server and sql database
+connection.connect(function(err) {
+  if (err) throw err;
+  // run the start function after the connection is made to prompt the user
+  start();
+});
 
-
-
-
+// function which prompts the user for what action they should take
+function start() {
+  inquirer
+    .prompt({
+      name: 'buyOrSell',
+      type: 'rawlist',
+      message:
+        'Would you like to [BUY] something at B-Amazon or [SELL] an item at B-Amazon?',
+      choices: ['BUY', 'SELL'],
+    })
+    .then(function(answer) {
+      // based on their answer, either call the bid or the post functions
+      if (answer.buyOrSell.toUpperCase() === 'BUY') {
+        buyItems();
+      } else {
+        sellItems();
+      }
+    });
+}
 
 function buyItems() {
-inquirer
-  .prompt([
-    {
-      name: 'postorbid',
-      message: 'What would like to do?',
-      type: 'list',
-      choices: ['POST AN ITEM', 'BID ON AN ITEM'],
-    },
-  ])
-  .then(function(answer) {
-    if (answer.postorbid === 'POST AN ITEM') {
-      // console.log('POST AN ITEM');
-      inquirer
-        .prompt([
-          {
-            name: 'name',
-            message: 'What is your products name?',
-            type: 'input',
-          },
-          {
-            name: 'price',
-            message: 'How you wanna charge?',
-            type: 'input',
-          },
-        ])
-        .then(function(post) {
-          console.log('Product Name: ' + post.name);
-          console.log('Product Price: ' + post.price);
-        });
-    } else {
-      console.log('BID ON AN ITEM');
-    }
-  });
+    console.log('ALRIGHT WHAT WOULD YOU LIKE TO BUY');
+}
+
+function sellItems() {
+    console.log('SORRY WE DONT SELL THINGS FOR YOU');
 }
