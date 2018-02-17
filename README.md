@@ -14,3 +14,5 @@
    * [Prompt](https://www.npmjs.com/package/prompt)
 5. npm install mysql --save
    * [MySQL](https://www.npmjs.com/package/mysql)
+6. npm install chalk --save
+   * [Chalk](https://www.npmjs.com/package/chalk)
