@@ -5,7 +5,7 @@ CREATE DATABASE bamazon;
 USE bamazon;
 
 CREATE TABLE products (
-  id INT NOT NULL AUTO_INCREMENT,
+  item_id INT NOT NULL AUTO_INCREMENT,
   product_name VARCHAR(150) NOT NULL,
   department_name VARCHAR(150) NOT NULL,
   price DECIMAL(10,2) NULL,
@@ -42,3 +42,45 @@ VALUES ("headphones", "music", 2.50, 100);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("speakers", "music", 2.50, 100);
+
+-- A query which returns all data for shoes
+select *
+from products
+where department_name = "shoes";
+
+-- A query which returns all data for pet supplies
+select *
+from products
+where department_name = "pet supplies";
+
+-- A query which returns all data for clothing
+select *
+from products
+where department_name = "clothing";
+
+-- A query which returns all data for music
+select *
+from products
+where department_name = "music";
+
+/* A query which returns all data for songs sung by a specific artist */
+select *
+from top5000 t
+where t.artist = 'hanson';
+
+/* A query which returns all artists who appear within the top 5000 more than once */
+SELECT artist, COUNT(*) AS artist_count
+FROM top5000
+GROUP BY artist
+HAVING artist_count > 1;
+
+/* A query which returns all data contained within a specific range */
+SELECT *
+FROM top5000 t
+WHERE t.year >= 2005 and t.year < 2010;
+
+/* A query which searches for a specific song in the top 5000 and returns the data for it */
+SELECT song, COUNT(*) AS song_count
+FROM top5000
+GROUP BY song
+HAVING song_count > 1;

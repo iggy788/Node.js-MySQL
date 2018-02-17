@@ -1,6 +1,7 @@
 # Node.js-MySQL
 
-
+### Application Work Flow!
+![Application Flow](images/amazonFlow.png)
 - - -
 ### Install These Packages
 1. npm init --y
