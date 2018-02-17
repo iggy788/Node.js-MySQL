@@ -73,31 +73,42 @@ function itemSearch() {
                         res[i].department_name
                     );
                 }
-                inquirer.prompt([{
-                    name: 'quantity',
-                    type: 'input',
-                    message: 'Enter Desired Quantity: ',
-                    validate: function (value) {
-                        if (isNaN(value) === false) {
-                            return true;
-                        }
-                        return false;
-                    },
-                }, ]).then(function (answer) {
-                    var query = 'SELECT stock_quantity FROM products WHERE ?';
-                    connection.query(
-                      query,
-                      {
-                        stock_quantity: answer.quantity,
-                      },
-                      function(err, res) {
-                        // console.log(answer.item);
-                        // for (var i = 0;i < res.length; i++) {
-                          console.log('Quantity Available: ' + res.stock_quantity);
-                        // }
-                      }
-                    );
-                });
+                quantitySearch();
             });
         });
 }
+
+function quantitySearch() {
+    inquirer
+        .prompt({
+            name: 'quantity',
+            type: 'input',
+            message: 'Enter Desired Quantity: ',
+                    validate: function(value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+            }
+        }).then(function (answer) {
+            if (answer.quantity === parseInt(4)) {
+                console.log('Placing Your Order!');
+            } else {
+                console.log('Insufficient Quantity!');
+            }
+        });
+}
+
+// var query = 'SELECT stock_quantity FROM products WHERE ?';
+// connection.query(
+//   query,
+//   {
+//     stock_quantity: data.quantity,
+//   },
+//   function(err, res) {
+//     // console.log(answer.item);
+//     // for (var i = 0;i < res.length; i++) {
+//       console.log(res.stock_quantity);
+//     // }
+//   }
+// );
