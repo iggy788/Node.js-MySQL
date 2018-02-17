@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 var inquirer = require('inquirer');
-
+var chalk = require('chalk');
 // create the connection information for the sql database
 var connection = mysql.createConnection({
     host: 'localhost',
@@ -22,30 +22,13 @@ connection.connect(function (err) {
     buyItems();
 });
 
-// function which prompts the user for what action they should take
-function start() {
-    inquirer
-        .prompt({
-            name: 'buyOrSell',
-            type: 'rawlist',
-            message: 'Would you like to [BUY] something at B-Amazon or [SELL] an item at B-Amazon?',
-            choices: ['BUY', 'SELL'],
-        })
-        .then(function (answer) {
-            // based on their answer, either call the bid or the post functions
-            if (answer.buyOrSell.toUpperCase() === 'BUY') {
-                buyItems();
-            } else {
-                sellItems();
-            }
-        });
-}
-
+// item_id, product_name, price, stock_quantity
 function buyItems() {
-    connection.query('SELECT item_id, product_name FROM products', function (err, res) {
+    connection.query('SELECT * FROM products', function (err, res) {
         if (err) throw err;
+        console.log('bAmazon Marketplace');
         for (var i = 0; i < res.length; i++) {
-            console.log('Item ID: ' + res[i].item_id + ' || Product: ' + res[i].product_name);
+            console.log('Item ID: ' + chalk.blue(res[i].item_id) + ' || Product: ' + res[i].product_name + ' || Price: $' + res[i].price + ' || Quantity Left: ' + res[i].stock_quantity);
             // connection.end();
         }
         itemSearch();
@@ -60,7 +43,7 @@ function itemSearch() {
             message: 'Enter the ID of the Product You Would Like to Buy!',
         })
         .then(function (answer) {
-            var query = 'SELECT product_name, department_name FROM products WHERE ?';
+            var query = 'SELECT product_name, department_name, price FROM products WHERE ?';
             connection.query(query, {
                 item_id: answer.item
             }, function (err, res) {
@@ -91,10 +74,14 @@ function quantitySearch() {
           return false;
             }
         }).then(function (answer) {
-            if (answer.quantity === parseInt(4)) {
-                console.log('Placing Your Order!');
+            if (answer.quantity === '4') {
+                console.log(chalk.green('Placing Your Order!'));
+                console.log('****************');
+                buyItems();
             } else {
-                console.log('Insufficient Quantity!');
+                console.log(chalk.red('Insufficient Quantity!'));
+                console.log('****************');
+                buyItems();
             }
         });
 }
