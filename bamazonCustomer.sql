@@ -72,10 +72,9 @@ CREATE TABLE products
   select item_id, product_name
   from products;
 
-  SELECT product_name, stock_quantity, COUNT(*) AS stock_quantity_count
-  FROM products
-  GROUP BY product_name
-  HAVING stock_quantity_count > 10;
+UPDATE products
+SET stock_quantity = 3
+WHERE item_id = 4;
 
 -- A query which returns all data for shoes
 select *
@@ -96,25 +95,3 @@ where department_name = "clothing";
 select *
 from products
 where department_name = "music";
-
-/* A query which returns all data for songs sung by a specific artist */
-select *
-from top5000 t
-where t.artist = 'hanson';
-
-/* A query which returns all artists who appear within the top 5000 more than once */
-SELECT artist, COUNT(*) AS artist_count
-FROM top5000
-GROUP BY artist
-HAVING artist_count > 1;
-
-/* A query which returns all data contained within a specific range */
-SELECT *
-FROM top5000 t
-WHERE t.year >= 2005 and t.year < 2010;
-
-/* A query which searches for a specific song in the top 5000 and returns the data for it */
-SELECT song, COUNT(*) AS song_count
-FROM top5000
-GROUP BY song
-HAVING song_count > 1;
