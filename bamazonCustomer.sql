@@ -69,11 +69,12 @@ CREATE TABLE products
   VALUES
     ("speakers", "music", 2.50, 100);
 
-  select item_id, product_name
-  from products;
+select item_id, product_name
+from products;
 
+-- A query which updates the stock quantity for item with id of 4
 UPDATE products
-SET stock_quantity = 3
+SET stock_quantity = 95
 WHERE item_id = 4;
 
 -- A query which returns all data for shoes
